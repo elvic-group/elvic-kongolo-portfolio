@@ -232,6 +232,21 @@
                 max-width: 95vw;
                 max-height: 70vh;
             }
+
+            /* Hide zoom button on very small screens */
+            #zoom-btn {
+                display: block;
+            }
+
+            /* Adjust lightbox padding for mobile */
+            #lightbox-scroll-container {
+                padding: 1rem;
+            }
+
+            /* Make prev/next buttons smaller on mobile */
+            #lightbox .fixed {
+                padding: 0.5rem;
+            }
         }
 
         /* --- Prevent horizontal scroll --- */
@@ -1716,7 +1731,19 @@
             if (isZoomed) {
                 // ZOOM IN STATE
                 lightboxImg.classList.remove('max-h-[90vh]', 'max-w-[90vw]', 'cursor-zoom-in');
-                lightboxImg.classList.add('max-w-3xl', 'w-full', 'h-auto', 'cursor-zoom-out', 'my-10'); // Max width for reading comfort
+
+                // Check if mobile (screen width < 768px)
+                const isMobile = window.innerWidth < 768;
+
+                if (isMobile) {
+                    // Mobile: Use full width for better readability
+                    lightboxImg.classList.add('w-full', 'h-auto', 'cursor-zoom-out', 'my-4');
+                    lightboxImg.style.maxWidth = '100%';
+                } else {
+                    // Desktop: Use max-w-3xl for comfortable reading
+                    lightboxImg.classList.add('max-w-3xl', 'w-full', 'h-auto', 'cursor-zoom-out', 'my-10');
+                }
+
                 lightboxScrollContainer.classList.remove('items-center', 'justify-center');
                 lightboxScrollContainer.classList.add('items-start', 'justify-center');
             } else {
@@ -1728,7 +1755,8 @@
         function resetZoom() {
             isZoomed = false;
             lightboxImg.classList.add('max-h-[90vh]', 'max-w-[90vw]', 'cursor-zoom-in');
-            lightboxImg.classList.remove('max-w-3xl', 'w-full', 'h-auto', 'cursor-zoom-out', 'my-10');
+            lightboxImg.classList.remove('max-w-3xl', 'w-full', 'h-auto', 'cursor-zoom-out', 'my-10', 'my-4');
+            lightboxImg.style.maxWidth = '';
             lightboxScrollContainer.classList.add('items-center', 'justify-center');
             lightboxScrollContainer.classList.remove('items-start');
             lightboxScrollContainer.scrollTop = 0; // Reset scroll position
@@ -1741,6 +1769,21 @@
             if (e.key === 'Escape') closeLightbox();
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        // Touch support for mobile zoom (double-tap to zoom)
+        let lastTap = 0;
+        lightboxImg.addEventListener('touchend', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+
+            if (tapLength < 300 && tapLength > 0) {
+                // Double tap detected
+                e.preventDefault();
+                toggleZoom();
+            }
+
+            lastTap = currentTime;
         });
 
         // Attach click listeners using delegation
