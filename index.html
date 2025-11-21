@@ -365,21 +365,54 @@
 <body class="min-h-screen flex flex-col">
 
     <!-- NAVIGATION -->
-    <header
-        class="w-full pt-6 md:pt-10 pb-6 md:pb-8 px-4 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-        <div class="logo font-bold text-lg md:text-xl tracking-widest uppercase cursor-pointer" onclick="router('home')">
-            Elvic Kongolo
+    <header class="w-full pt-6 md:pt-10 pb-6 md:pb-8 px-4 md:px-12 max-w-7xl mx-auto">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <div class="logo font-bold text-lg md:text-xl tracking-widest uppercase cursor-pointer" onclick="router('home')">
+                Elvic Kongolo
+            </div>
+
+            <!-- Desktop Navigation (hidden on mobile) -->
+            <nav class="hidden md:flex items-center gap-4">
+                <a onclick="router('home')" id="nav-home" class="nav-link active" data-translate="nav_home">Home</a>
+                <a onclick="router('about')" id="nav-about" class="nav-link" data-translate="nav_about">About</a>
+                <a onclick="router('news')" id="nav-news" class="nav-link" data-translate="nav_news">News</a>
+                <a onclick="router('projects')" id="nav-projects" class="nav-link"
+                    data-translate="nav_projects">Projects</a>
+                <a onclick="router('contact')" id="nav-contact" class="nav-link" data-translate="nav_contact">Contact</a>
+
+                <div class="ml-4 border border-gray-300 px-2 py-1 bg-white">
+                    <select class="text-xs uppercase font-semibold bg-transparent outline-none cursor-pointer"
+                        onchange="changeLanguage(this.value)">
+                        <option value="en">EN</option>
+                        <option value="no">NO</option>
+                        <option value="fr">FR</option>
+                        <option value="zh">ZH</option>
+                        <option value="so">SO</option>
+                        <option value="sw">SW</option>
+                        <option value="de">DE</option>
+                    </select>
+                </div>
+            </nav>
+
+            <!-- Hamburger Menu Button (visible on mobile only) -->
+            <button id="mobile-menu-btn" class="md:hidden flex flex-col gap-1.5 p-2 focus:outline-none" onclick="toggleMobileMenu()">
+                <span class="w-6 h-0.5 bg-black transition-all duration-300"></span>
+                <span class="w-6 h-0.5 bg-black transition-all duration-300"></span>
+                <span class="w-6 h-0.5 bg-black transition-all duration-300"></span>
+            </button>
         </div>
 
-        <nav class="flex items-center flex-wrap justify-center gap-2 md:gap-4">
-            <a onclick="router('home')" id="nav-home" class="nav-link active" data-translate="nav_home">Home</a>
-            <a onclick="router('about')" id="nav-about" class="nav-link" data-translate="nav_about">About</a>
-            <a onclick="router('news')" id="nav-news" class="nav-link" data-translate="nav_news">News</a>
-            <a onclick="router('projects')" id="nav-projects" class="nav-link"
+        <!-- Mobile Menu (hidden by default) -->
+        <nav id="mobile-menu" class="md:hidden hidden flex-col gap-4 pt-6 border-t border-gray-200 mt-6">
+            <a onclick="router('home'); toggleMobileMenu();" id="nav-home-mobile" class="nav-link active text-center py-2" data-translate="nav_home">Home</a>
+            <a onclick="router('about'); toggleMobileMenu();" id="nav-about-mobile" class="nav-link text-center py-2" data-translate="nav_about">About</a>
+            <a onclick="router('news'); toggleMobileMenu();" id="nav-news-mobile" class="nav-link text-center py-2" data-translate="nav_news">News</a>
+            <a onclick="router('projects'); toggleMobileMenu();" id="nav-projects-mobile" class="nav-link text-center py-2"
                 data-translate="nav_projects">Projects</a>
-            <a onclick="router('contact')" id="nav-contact" class="nav-link" data-translate="nav_contact">Contact</a>
+            <a onclick="router('contact'); toggleMobileMenu();" id="nav-contact-mobile" class="nav-link text-center py-2" data-translate="nav_contact">Contact</a>
 
-            <div class="ml-2 md:ml-4 border border-gray-300 px-2 py-1 bg-white">
+            <div class="border border-gray-300 px-2 py-1 bg-white mx-auto">
                 <select class="text-xs uppercase font-semibold bg-transparent outline-none cursor-pointer"
                     onchange="changeLanguage(this.value)">
                     <option value="en">EN</option>
@@ -1506,6 +1539,33 @@
     </div>
 
     <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const spans = menuBtn.querySelectorAll('span');
+
+            if (mobileMenu.classList.contains('hidden')) {
+                // Open menu
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+
+                // Animate hamburger to X
+                spans[0].style.transform = 'rotate(45deg) translateY(8px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+            } else {
+                // Close menu
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+
+                // Animate X back to hamburger
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        }
+
         // Simple Router Logic
         function router(view) {
             // Views
@@ -1517,13 +1577,22 @@
                 contact: document.getElementById('view-contact')
             };
 
-            // Nav items
+            // Nav items (desktop)
             const navs = {
                 home: document.getElementById('nav-home'),
                 about: document.getElementById('nav-about'),
                 news: document.getElementById('nav-news'),
                 projects: document.getElementById('nav-projects'),
                 contact: document.getElementById('nav-contact')
+            };
+
+            // Nav items (mobile)
+            const navsMobile = {
+                home: document.getElementById('nav-home-mobile'),
+                about: document.getElementById('nav-about-mobile'),
+                news: document.getElementById('nav-news-mobile'),
+                projects: document.getElementById('nav-projects-mobile'),
+                contact: document.getElementById('nav-contact-mobile')
             };
 
             // Scroll to top smoothly
@@ -1541,6 +1610,10 @@
                 if (el) el.classList.remove('active');
             });
 
+            Object.values(navsMobile).forEach(el => {
+                if (el) el.classList.remove('active');
+            });
+
             // Activate target
             if (views[view]) {
                 views[view].classList.remove('hidden');
@@ -1549,6 +1622,10 @@
 
             if (navs[view]) {
                 navs[view].classList.add('active');
+            }
+
+            if (navsMobile[view]) {
+                navsMobile[view].classList.add('active');
             }
 
             // Track page view in Google Analytics
