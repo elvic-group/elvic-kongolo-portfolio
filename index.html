@@ -108,6 +108,7 @@
             background-color: var(--bg-color);
             color: #111;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         h1,
@@ -155,6 +156,14 @@
             color: #666;
         }
 
+        /* --- Mobile Navigation --- */
+        @media (max-width: 768px) {
+            .nav-link {
+                padding: 6px 12px;
+                font-size: 10px;
+            }
+        }
+
         /* --- Form Styling --- */
         .custom-input {
             border: 1px solid #D1D5DB;
@@ -170,11 +179,15 @@
         /* --- Images --- */
         .portrait-img {
             filter: contrast(1.05) saturate(1.1);
+            max-width: 100%;
+            height: auto;
         }
 
         .project-card img {
             transition: transform 0.5s ease;
             cursor: zoom-in;
+            width: 100%;
+            height: auto;
         }
 
         .project-card:hover img {
@@ -184,6 +197,51 @@
         /* Added cursor style for News images */
         #view-news .group img {
             cursor: zoom-in;
+            width: 100%;
+            height: auto;
+        }
+
+        /* --- Mobile Responsive Typography --- */
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+                line-height: 1.3;
+            }
+
+            h3 {
+                font-size: 1.25rem !important;
+                line-height: 1.4;
+            }
+        }
+
+        /* --- Mobile Image Grid --- */
+        @media (max-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+            }
+        }
+
+        /* --- Mobile Lightbox --- */
+        @media (max-width: 640px) {
+            #lightbox img {
+                max-width: 95vw;
+                max-height: 70vh;
+            }
+        }
+
+        /* --- Prevent horizontal scroll --- */
+        * {
+            max-width: 100%;
+        }
+
+        img, video, iframe {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 
@@ -308,12 +366,12 @@
 
     <!-- NAVIGATION -->
     <header
-        class="w-full pt-10 pb-8 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0">
-        <div class="logo font-bold text-xl tracking-widest uppercase cursor-pointer" onclick="router('home')">
+        class="w-full pt-6 md:pt-10 pb-6 md:pb-8 px-4 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+        <div class="logo font-bold text-lg md:text-xl tracking-widest uppercase cursor-pointer" onclick="router('home')">
             Elvic Kongolo
         </div>
 
-        <nav class="flex items-center flex-wrap justify-center gap-4">
+        <nav class="flex items-center flex-wrap justify-center gap-2 md:gap-4">
             <a onclick="router('home')" id="nav-home" class="nav-link active" data-translate="nav_home">Home</a>
             <a onclick="router('about')" id="nav-about" class="nav-link" data-translate="nav_about">About</a>
             <a onclick="router('news')" id="nav-news" class="nav-link" data-translate="nav_news">News</a>
@@ -321,31 +379,31 @@
                 data-translate="nav_projects">Projects</a>
             <a onclick="router('contact')" id="nav-contact" class="nav-link" data-translate="nav_contact">Contact</a>
 
-            <div class="ml-4 border border-gray-300 px-2 py-1 bg-white">
+            <div class="ml-2 md:ml-4 border border-gray-300 px-2 py-1 bg-white">
                 <select class="text-xs uppercase font-semibold bg-transparent outline-none cursor-pointer"
                     onchange="changeLanguage(this.value)">
-                    <option value="en">English</option>
-                    <option value="no">Norsk</option>
-                    <option value="fr">Français</option>
-                    <option value="zh">Chinese</option>
-                    <option value="so">Somali</option>
-                    <option value="sw">Swahili</option>
-                    <option value="de">Deutsch</option>
+                    <option value="en">EN</option>
+                    <option value="no">NO</option>
+                    <option value="fr">FR</option>
+                    <option value="zh">ZH</option>
+                    <option value="so">SO</option>
+                    <option value="sw">SW</option>
+                    <option value="de">DE</option>
                 </select>
             </div>
         </nav>
     </header>
 
     <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow w-full max-w-7xl mx-auto px-6 md:px-12 py-8">
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-12 py-6 md:py-8">
 
         <!-- HOME VIEW -->
-        <div id="view-home" class="fade-in grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div id="view-home" class="fade-in grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
             <!-- Text Content (Left) -->
-            <div class="lg:col-span-5 lg:pr-8 space-y-8">
+            <div class="lg:col-span-5 lg:pr-8 space-y-6 md:space-y-8">
                 <div>
-                    <h1 class="text-4xl md:text-5xl mb-4 text-gray-900">Elvic Kongolo</h1>
-                    <p class="font-bold text-sm mb-6" data-translate="role">Founder & CEO | Cultural Entrepreneur |
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 text-gray-900">Elvic Kongolo</h1>
+                    <p class="font-bold text-xs md:text-sm mb-4 md:mb-6" data-translate="role">Founder & CEO | Cultural Entrepreneur |
                         Music Producer</p>
                     <p class="text-gray-600 leading-relaxed text-sm md:text-base" data-translate="home_bio">
                         I'm a social entrepreneur bridging culture, tourism, and community development across Norway and
@@ -355,8 +413,8 @@
                 </div>
 
                 <div>
-                    <h2 class="text-3xl serif-font mb-6" data-translate="what_i_do">What I Do:</h2>
-                    <ul class="space-y-4 text-sm md:text-base text-gray-700">
+                    <h2 class="text-2xl md:text-3xl serif-font mb-4 md:mb-6" data-translate="what_i_do">What I Do:</h2>
+                    <ul class="space-y-3 md:space-y-4 text-sm md:text-base text-gray-700">
                         <li class="leading-relaxed">
                             <span class="font-bold text-black" data-translate="home_wid_1_title">• Kulturbryggeriet &
                                 Nord på Hjul</span>
@@ -597,16 +655,16 @@
 
         <!-- PROJECTS VIEW -->
         <div id="view-projects" class="hidden fade-in">
-            <div class="mb-12 max-w-4xl">
-                <h1 class="text-4xl md:text-6xl mb-6 text-gray-900 serif-font" data-translate="projects_title">Elvic's
+            <div class="mb-8 md:mb-12 max-w-4xl">
+                <h1 class="text-3xl md:text-4xl lg:text-6xl mb-4 md:mb-6 text-gray-900 serif-font" data-translate="projects_title">Elvic's
                     Projects</h1>
-                <p class="text-gray-600 text-lg leading-relaxed" data-translate="projects_intro">
+                <p class="text-gray-600 text-base md:text-lg leading-relaxed" data-translate="projects_intro">
                     Explore my diverse portfolio of community engagement, cultural initiatives, and creative projects
                     across Norway and DR Congo — from Nord på Hjul to music festivals and beyond.
                 </p>
             </div>
 
-            <div class="space-y-20">
+            <div class="space-y-12 md:space-y-20">
                 <!-- Section 1: Nord på hjul -->
                 <div>
                     <h2 class="text-3xl serif-font mb-8 border-b pb-4" data-translate="proj_nord_title">Nord på Hjul</h2>
@@ -909,16 +967,16 @@
 
         <!-- NEWS VIEW (New) -->
         <div id="view-news" class="hidden fade-in">
-            <div class="mb-12 max-w-4xl">
-                <h1 class="text-4xl md:text-6xl mb-6 text-gray-900 serif-font" data-translate="news_title">News & Press
+            <div class="mb-8 md:mb-12 max-w-4xl">
+                <h1 class="text-3xl md:text-4xl lg:text-6xl mb-4 md:mb-6 text-gray-900 serif-font" data-translate="news_title">News & Press
                     Coverage</h1>
-                <p class="text-gray-600 text-lg leading-relaxed" data-translate="news_intro">
+                <p class="text-gray-600 text-base md:text-lg leading-relaxed" data-translate="news_intro">
                     Explore featured articles and press coverage about Elvic Kongolo's work in music, community
                     engagement, and cultural initiatives.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-8 md:gap-y-12">
 
                 <!-- News Item 1 -->
                 <div class="group cursor-pointer">
@@ -1309,22 +1367,23 @@
 
         <!-- CONTACT VIEW (Hidden by default) -->
         <div id="view-contact" class="hidden fade-in max-w-2xl">
-            <div class="mb-10">
+            <div class="mb-8 md:mb-10">
                 <!-- Green Icon Box -->
-                <div class="w-16 h-16 bg-[#DFFFD6] flex items-center justify-center mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="w-12 h-12 md:w-16 md:h-16 bg-[#DFFFD6] flex items-center justify-center mb-4 md:mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="md:w-8 md:h-8">
                         <circle cx="12" cy="12" r="10" />
                         <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
                     </svg>
                 </div>
-                <h1 class="text-4xl md:text-5xl mb-4" data-translate="contact_heading">Contact</h1>
-                <p class="serif-font text-2xl text-gray-800" data-translate="contact_sub">Want to chat about your
+                <h1 class="text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4" data-translate="contact_heading">Contact</h1>
+                <p class="serif-font text-lg md:text-2xl text-gray-800" data-translate="contact_sub">Want to chat about your
                     startup? Drop me a line.</p>
             </div>
 
-            <form id="contact-form" class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form id="contact-form" class="space-y-5 md:space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                     <div class="space-y-2">
                         <label class="text-sm text-gray-600"><span data-translate="form_first">First Name</span> <span
                                 class="text-gray-400" data-translate="form_required">(required)</span></label>
